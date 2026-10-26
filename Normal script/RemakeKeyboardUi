@@ -1,0 +1,290 @@
+local TS = game:GetService("TweenService")
+local VIM = game:GetService("VirtualInputManager")
+
+local CG = game:GetService("CoreGui")
+local LP = game:GetService("Players").LocalPlayer
+local tba = CG.TopBarApp.TopBarApp
+local start = true
+local autoScale = 0.08
+
+local function ui(par, co)
+    local sc = Instance.new("UIStroke")
+    sc.Thickness = 0.4
+    sc.Color = Color3.fromRGB(255, 255, 255)
+    sc.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    sc.Parent = par
+    if co then
+        local c = Instance.new("UICorner")
+        c.CornerRadius = UDim.new(0, co)
+        c.Parent = par
+        return sc, c 
+	end 
+		return sc 
+end
+
+
+local new_frame_folder = Instance.new("Folder")
+new_frame_folder.Name = "DROX NEW FRAME"
+new_frame_folder.Parent = tba
+
+local new_btn_folder = Instance.new("Folder")
+new_btn_folder.Name = "DROX NEW BTN"
+new_btn_folder.Parent = CG
+
+local sg = Instance.new("ScreenGui", new_btn_folder)
+sg.Name = "Main"
+sg.ResetOnSpawn = false
+
+local add_btn_ui = Instance.new("Frame")
+add_btn_ui.Name = "add_ui"
+add_btn_ui.Size = UDim2.new(0.24, 0, 0, 25)
+add_btn_ui.Position = UDim2.new(0.2, 0, 0.2, 0)
+add_btn_ui.BackgroundColor3 = Color3.fromRGB(12, 13, 23)
+add_btn_ui.BackgroundTransparency = 0.12
+add_btn_ui.Visible = false
+add_btn_ui.ClipsDescendants = true
+add_btn_ui.Parent = new_frame_folder
+
+ui(add_btn_ui, 6)
+
+local add_tgl = true
+local add_btn = Instance.new("TextButton")
+add_btn.Text = "ADD BUTTON"
+add_btn.TextColor3 = Color3.fromRGB(250, 250, 250)
+add_btn.Size = UDim2.new(1, 0, 0, 25)
+add_btn.Position = UDim2.new(0, 0, 0, 0)
+add_btn.BackgroundColor3 = Color3.fromRGB(250, 250, 255)
+add_btn.BackgroundTransparency = 1
+add_btn.Parent = add_btn_ui
+add_btn.MouseButton1Click:Connect(function()
+  local toSize = add_tgl and UDim2.new(0.24, 0, 0, 25) or UDim2.new(0.24, 0, 0, 225)
+  
+  TS:Create(add_btn_ui, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = toSize}):Play()
+  add_tgl = not add_tgl
+end)
+
+ui(add_btn)
+
+local add_scroll = Instance.new("ScrollingFrame")
+add_scroll.Size = UDim2.new(1, 0, 0.9, 0)
+add_scroll.Position = UDim2.new(0, 0, 0, 30)
+add_scroll.BackgroundColor3 = Color3.fromRGB(88, 88, 88)
+add_scroll.BackgroundTransparency = 1
+add_scroll.ScrollBarThickness = 0
+add_scroll.ScrollBarImageTransparency = 0.7
+add_scroll.Parent = add_btn_ui
+
+ui(add_scroll)
+
+local add_scroll_list = Instance.new("UIListLayout", add_scroll)
+add_scroll_list.SortOrder = Enum.SortOrder.LayoutOrder
+add_scroll_list.VerticalAlignment = Enum.VerticalAlignment.Top
+add_scroll_list:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+  add_scroll.CanvasSize = UDim2.new(0, 0, 0, add_scroll_list.AbsoluteContentSize.Y + 26)
+end)
+
+local config_btn_ui = Instance.new("Frame")
+config_btn_ui.Name = "config_ui"
+config_btn_ui.Size = UDim2.new(0.24, 0, 0, 25)
+config_btn_ui.Position = UDim2.new(0.5, 0, 0.2, 0)
+config_btn_ui.BackgroundColor3 = Color3.fromRGB(12, 13, 23)
+config_btn_ui.BackgroundTransparency = 0.12
+config_btn_ui.Visible = false
+config_btn_ui.ClipsDescendants = true
+config_btn_ui.Parent = new_frame_folder
+
+ui(config_btn_ui, 6)
+
+config_tgl = true
+config_btn = Instance.new("TextButton")
+config_btn.Text = "Configuration"
+config_btn.TextColor3 = Color3.fromRGB(250, 250, 250)
+config_btn.Size = UDim2.new(1, 0, 0, 25)
+config_btn.Position = UDim2.new(0, 0, 0, 0)
+config_btn.BackgroundColor3 = Color3.fromRGB(250, 250, 255)
+config_btn.BackgroundTransparency = 1
+config_btn.Parent = config_btn_ui
+config_btn.MouseButton1Click:Connect(function()
+  local toSize = config_tgl and UDim2.new(0.24, 0, 0, 25) or UDim2.new(0.24, 0, 0, 225)
+  
+  TS:Create(config_btn_ui, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = toSize}):Play()
+  config_tgl = not config_tgl
+end)
+
+ui(config_btn)
+
+local config_scroll = Instance.new("ScrollingFrame")
+config_scroll.Size = UDim2.new(1, 0, 0.9, 0)
+config_scroll.Position = UDim2.new(0, 0, 0, 30)
+config_scroll.BackgroundColor3 = Color3.fromRGB(88, 88, 88)
+config_scroll.BackgroundTransparency = 1
+config_scroll.ScrollBarThickness = 0
+config_scroll.ScrollBarImageTransparency = 0.7
+config_scroll.Parent = config_btn_ui
+
+local config_scroll_list = Instance.new("UIListLayout", config_scroll)
+config_scroll_list.SortOrder = Enum.SortOrder.LayoutOrder
+config_scroll_list.VerticalAlignment = Enum.VerticalAlignment.Top
+config_scroll_list:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+  config_scroll.CanvasSize = UDim2.new(0, 0, 0, config_scroll_list.AbsoluteContentSize.Y + 26)
+end)
+
+local editMode = false
+local data = {"A", "B", "C", "D", "E", "F" , "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Zero","Space","LeftShift", "RightShift"}
+local function add(i, v)
+  local btn = Instance.new("TextButton")
+  btn.Name = "Btn_" .. v
+  btn.Text = v
+  btn.Size = UDim2.new(1, 0, 0, 25)
+  btn.TextColor3 = Color3.fromRGB(250, 250, 250)
+  btn.BackgroundTransparency = 1
+  btn.Parent = add_scroll
+  ui(btn)
+  btn.MouseButton1Click:Connect(function()
+    local keyBtn = Instance.new("TextButton", sg)
+    keyBtn.Name = "KeyCode"
+    keyBtn.Text = v
+    keyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    keyBtn.Size = UDim2.new(0, 50, 0, 50)
+    keyBtn.BackgroundColor3 = Color3.fromRGB(255,215,0)
+    keyBtn.Modal = true
+    local targetKey = Enum.KeyCode[v]
+    
+    local function fireSignal(isPressed)
+      VIM:SendKeyEvent(isPressed, targetKey, false, game)
+    end
+    
+    keyBtn.MouseButton1Down:Connect(function() fireSignal(true) keyBtn.BackgroundColor3 = Color3.fromRGB(218,165,32) end)
+    keyBtn.MouseButton1Up:Connect(function() fireSignal(false) keyBtn.BackgroundColor3 = Color3.fromRGB(255,215,0) end)
+    keyBtn.MouseLeave:Connect(function() fireSignal(false) keyBtn.BackgroundColor3 = Color3.fromRGB(255,215,0) end)
+  
+    local dragBtn = Instance.new("TextButton", keyBtn)
+    dragBtn.Name = "dragBox"
+    dragBtn.Text = ""
+    dragBtn.Size = UDim2.new(1, 0, 1, 0)
+    dragBtn.BackgroundColor3 = Color3.fromRGB(250, 0, 0)
+    dragBtn.BackgroundTransparency = 0.8
+    dragBtn.Visible = editMode
+    
+    local UIS = game:GetService("UserInputService")
+    local dragging, dragStart, startPos
+    
+    dragBtn.InputBegan:Connect(function(input)
+      if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = keyBtn.Position
+        input.Changed:Connect(function()
+          if input.UserInputState == Enum.UserInputState.End then dragging = false end
+        end)
+      end
+    end)
+    UIS.InputChanged:Connect(function(input)
+      if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        keyBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+      end
+    end)
+    -- configur
+    autoScale = autoScale + 0.08
+    local startBtnConfig = false
+    local btnConfig = Instance.new("TextButton")
+    btnConfig.Name = i.."_Btn_"..v
+    btnConfig.Text = v
+    btnConfig.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btnConfig.BackgroundTransparency = 1
+    btnConfig.Size = UDim2.new(1, 0, 0, 25)
+    btnConfig.TextXAlignment = Enum.TextXAlignment.Left
+    btnConfig.Parent = config_scroll
+    ui(btnConfig)
+    btnConfig.MouseButton1Click:Connect(function()
+      if not startBtnConfig then
+        startBtnConfig = not startBtnConfig
+        for i = 1, 5 do
+          keyBtn.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+          task.wait(0.1)
+          keyBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+        end
+        startBtnConfig = not startBtnConfig
+      end
+    end)
+
+    local destroyBtn = Instance.new("TextButton", btnConfig)
+    destroyBtn.Size = UDim2.new(0.05, 0, 1, 0)
+    destroyBtn.Position = UDim2.new(0.95, 0, 0, 0)
+    destroyBtn.Text = "🗑"
+    destroyBtn.BackgroundColor3 = Color3.fromRGB(255, 107, 107)
+    destroyBtn.MouseButton1Click:Connect(function() 
+      keyBtn:Destroy()
+      btnConfig:Destroy()
+    end)
+    local btnSizePlus = Instance.new("TextButton", btnConfig)
+    btnSizePlus.Size = UDim2.new(0.15, 0, 1, 0)
+    btnSizePlus.Position = UDim2.new(0.8, 0, 0, 0)
+    btnSizePlus.Text = "▲"
+    btnSizePlus.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+    btnSizePlus.MouseButton1Click:Connect(function() 
+      keyBtn.Size = UDim2.new(0, keyBtn.Size.X.Offset + 10, 0, keyBtn.Size.Y.Offset + 10)
+    end)
+
+    local btnSizeMins = Instance.new("TextButton", btnConfig)
+    btnSizeMins.Size = UDim2.new(0.15, 0, 1, 0)
+    btnSizeMins.Position = UDim2.new(0.65, 0, 0, 0)
+    btnSizeMins.Text = "▼"
+    btnSizeMins.BackgroundColor3 = Color3.fromRGB(231, 76, 60)
+    btnSizeMins.MouseButton1Click:Connect(function() 
+      keyBtn.Size = UDim2.new(0, keyBtn.Size.X.Offset - 10, 0, keyBtn.Size.Y.Offset - 10)
+    end)
+  end)
+end
+
+for i, key in ipairs(data) do add(i, key) end
+
+
+local NewBtn = tba.MenuIconHolder.TriggerPoint:Clone()
+NewBtn.Name = "NewBtn"
+NewBtn.Size = UDim2.new(0, 60, 0.6, 0)
+NewBtn.Parent = tba.UnibarLeftFrame.StackedElements
+NewBtn.IconHitArea.Name = "button"
+NewBtn.button.ScalingIcon.Text = "abndrstraightpinstrugglejackman"
+NewBtn.button.MouseButton1Click:Connect(function()
+  add_btn_ui.Visible = not add_btn_ui.Visible
+  config_btn_ui.Visible = not config_btn_ui.Visible
+  if start == true then
+    TS:Create(add_btn_ui, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0.24, 0, 0, 225)}):Play()
+    TS:Create(config_btn_ui, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0.24, 0, 0, 225)}):Play()
+    
+    start = not start
+  end
+end)
+
+local ModeTgl = false
+local ModeBtn = NewBtn:Clone()
+ModeBtn.Name = "ModeBtn"
+ModeBtn.Parent = tba.UnibarLeftFrame.StackedElements
+ModeBtn.Size = UDim2.new(0.3, 0, 0.5, 0)
+ModeBtn.button.Size = UDim2.new(1, 0, 1, 0)
+ModeBtn.button.BackgroundColor3 = Color3.fromRGB(250, 0, 0)
+ModeBtn.button.ScalingIcon:Destroy()
+local ModeText = Instance.new("TextLabel", ModeBtn.button)
+ModeText.Text = "Edit Mode"
+ModeText.TextColor3 = Color3.fromRGB(200, 200, 200)
+ModeText.Size = UDim2.new(1, 0, 1, 0)
+ModeText.TextSize = 12
+ModeText.Font = Enum.Font.ArialBold
+ModeText.BackgroundTransparency = 1
+ModeText.Active = false
+ModeBtn.button.MouseButton1Click:Connect(function() 
+  editMode = not editMode
+  if editMode then
+    ModeBtn.button.BackgroundColor3 = Color3.fromRGB(0, 250, 0)
+  else
+    ModeBtn.button.BackgroundColor3 = Color3.fromRGB(250, 0, 0)
+  end
+  for _, v in ipairs(sg:GetChildren()) do
+    if v.Name == "KeyCode" then
+      v:FindFirstChild("dragBox").Visible = editMode
+    end
+  end
+end)
+
